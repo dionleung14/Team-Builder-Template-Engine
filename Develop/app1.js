@@ -30,20 +30,7 @@ function addEmployee(){
             } else if (newEmployeeAdd.newRole === `Co-Manager`) {
                 addCoManager();
             } else {
-                inquirer
-                    .prompt([
-                        {
-                            type: `confirm`,
-                            message: `Are you sure you wish to cancel adding employees and proceed to creating your roster page?`,
-                            name: `doubleCheck`
-                        }
-                    ]).then(function(verify){
-                        if (verify.doubleCheck) {
-                            writeContactPage()
-                        } else {
-                            addEmployeeConfirm()
-                        }
-                    })
+                confirmFileWrite();
             }
         })
 }
@@ -58,10 +45,27 @@ function addEmployeeConfirm(){
             }
         ]).then(function(employeeCheck){
             if (!employeeCheck.add){
-                writeContactPage();
+                confirmFileWrite();
             } else (
                 addEmployee()
             )
+        })
+}
+
+function confirmFileWrite(){
+    inquirer
+        .prompt([
+            {
+                type: `confirm`,
+                message: `Are you sure you wish to cancel adding employees and proceed to creating your roster page?`,
+                name: `doubleCheck`
+            }
+        ]).then(function(verify){
+            if (verify.doubleCheck) {
+                writeContactPage()
+            } else {
+                addEmployeeConfirm()
+            }
         })
 }
 
@@ -171,7 +175,15 @@ function addIntern(){
 }
 
 function writeContactPage(){
-    console.log("I WANNA WRITE THE DAMN HTML")
+    // console.log("I WANNA WRITE THE DAMN HTML")
+    // console.log(render(devTeamArr))
+    fs.writeFile(outputPath, render(devTeamArr), function(error, data){
+        if (error) {
+            console.log(error)
+        } else {
+            console.log("Successfully wrote the html file")
+        }
+    })
 }
 
 inquirer
