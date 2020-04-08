@@ -181,7 +181,7 @@ function writeContactPage(){
         if (error) {
             console.log(error)
         } else {
-            console.log("Successfully wrote the html file")
+            console.log("Successfully wrote the html file to the output folder")
         }
     })
 }
